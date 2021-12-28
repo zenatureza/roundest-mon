@@ -15,8 +15,14 @@ export default function Home() {
   const firstPokemon = trpc.useQuery(['get-pokemon-by-id', { id: first }]);
   const secondPokemon = trpc.useQuery(['get-pokemon-by-id', { id: second }]);
 
+  const voteMutation = trpc.useMutation(["cast-vote"]);
+
   const voteForRoundest = (selected: number) => {
-    // TODO: fire mutation to persist changes
+    if (selected === first) {
+      voteMutation.mutate({ votedFor: first, votedAgainst: second })
+    } else {
+      voteMutation.mutate({ votedFor: second, votedAgainst: first })
+    }
 
     updateIds(getOptionsForVote());
   }
@@ -26,16 +32,16 @@ export default function Home() {
       <div className='text-2xl text-center'>Which Pokémon is Rounder?</div>
       <div className='p-2'></div>
       <div className='border rounded p-8 flex justify-between items-center max-w-2xl'>
-        {!firstPokemon.isLoading && 
-        firstPokemon.data && 
-        !secondPokemon.isLoading && 
-        secondPokemon.data && (
-          <>
-            <PokemonListing pokemon={firstPokemon.data} vote={() => voteForRoundest(first)} />
-            <div className='p-8'>Vs</div>
-            <PokemonListing pokemon={secondPokemon.data} vote={() => voteForRoundest(second)} />
-          </>
-        )}
+        {!firstPokemon.isLoading &&
+          firstPokemon.data &&
+          !secondPokemon.isLoading &&
+          secondPokemon.data && (
+            <>
+              <PokemonListing pokemon={firstPokemon.data} vote={() => voteForRoundest(first)} />
+              <div className='p-8'>Vs</div>
+              <PokemonListing pokemon={secondPokemon.data} vote={() => voteForRoundest(second)} />
+            </>
+          )}
         <div className='p-2' />
       </div>
     </div>
