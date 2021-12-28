@@ -26,7 +26,7 @@ const Home: NextPage = () => {
     <div className='h-screen w-screen flex flex-col justify-center align-center items-center'>
       <div className='text-2xl text-center'>Which Pokémon is Rounder?</div>
       <div className='p-2'></div>
-      <div className='border rounded p-8 flex justify-between max-w-2xl'>
+      <div className='border rounded p-8 flex justify-between items-center max-w-2xl'>
         <div className='w-64 h-64 flex flex-col items-center'>
           <img 
             src={firstPokemon.data?.sprites.front_default ?? ''} 
